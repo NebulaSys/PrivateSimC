@@ -1,0 +1,29 @@
+{
+  "name": "privatesimc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NebulaSys/PrivateSimC.git"
+  },
+  "keywords": [
+    "simc",
+    "private"
+  ],
+  "author": "punxious",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/NebulaSys/PrivateSimC/issues"
+  },
+  "homepage": "https://github.com/NebulaSys/PrivateSimC#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
+  }
+}
