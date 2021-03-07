@@ -6,8 +6,8 @@ const port = process.env.PORT || 8080;
 app.use(express.json())
 
 app.use(function (req, res, next) {
-    console.log('Headers: ', JSON.stringify(req.headers));
-    console.log('Body: ', JSON.stringify(req.body));
+    console.log(JSON.stringify(req.headers));
+    console.log(JSON.stringify(req.body));
 
     const verified = verify.Verify(req.get('X-Signature-Ed25519'), req.get('X-Signature-Timestamp'), JSON.stringify(req.body));
     if (!verified) {
