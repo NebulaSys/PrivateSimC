@@ -1,12 +1,12 @@
 const express = require('express')
 const verify = require('./verify')
 const app = express()
-app.use(express.json())
 const port = process.env.PORT || 8080;
 
+app.use(express.json())
 
 app.use(function (req, res, next) {
-    console.log(JSON.stringify(req));
+    console.log(req);
     const verified = verify.Verify(req.headers['X-Signature-Ed25519'], req.headers['X-Signature-Timestamp'], JSON.stringify(req.body));
     if (!verified) {
         res.status(401).send('invalid request signature');
