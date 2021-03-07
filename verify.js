@@ -16,4 +16,4 @@ function Verify(signature, timestamp) {
     return isVerified;
 }
 
-export function Verify();
+module.exports = { Verify };

@@ -10,25 +10,24 @@ app.use(function (req, res, next) {
     if (!verified) {
         res.status(401).send('invalid request signature');
     }
-    next()
-})
+    next();
+});
 
 app.get('/', (req, res) => {
     res.send("Hello World!!")
-})
+});
 
 app.post('/', (req, res) => {
     console.error(req.body);
     if (req.body.hasOwnProperty('type') && req.body.type === 1) {
         res.send({
             'type': 1
-        })
+        });
     } else {
-        res.send("OPPS something went wrong..")
+        res.send("OPPS something went wrong..");
     }
-})
+});
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`Example app listening at http://localhost:${port}`)
-})
-
+});
