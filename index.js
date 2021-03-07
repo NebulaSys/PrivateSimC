@@ -4,20 +4,20 @@ const verify = require('./verify')
 const app = express()
 const port = process.env.PORT || 8080;
 
-const test = execFile ('./simc2');
+execFile('./simc', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`error: ${error.message}`);
+        return;
+    }
 
-test.stdout.on('data', (data) => {
-    console.log(data.toString());
-});
+    if (stderr) {
+        console.error(`stderr: ${stderr}`);
+        return;
+    }
 
-test.stderr.on('data', (data) => {
-    console.error(data.toString());
-});
+    console.log(`stdout:\n${stdout}`);
 
-test.on('exit', (code) => {
-    console.log(`Child exited with code ${code}`);
-});
-
+})
 app.use(express.json())
 
 app.use(function (req, res, next) {
