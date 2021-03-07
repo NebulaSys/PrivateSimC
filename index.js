@@ -6,7 +6,7 @@ const port = process.env.PORT || 8080;
 
 
 app.use(function (req, res, next) {
-    const verified = verify.Verify(req.headers['X-Signature-Ed25519'], req.headers['X-Signature-Timestamp']);
+    const verified = verify.Verify(req.headers['X-Signature-Ed25519'], req.headers['X-Signature-Timestamp'], JSON.stringify(req.body));
     if (!verified) {
         res.status(401).send('invalid request signature');
     }
