@@ -10,6 +10,7 @@ app.post('/', (req, res) => {
             'type': 1
         }))
     } else {
+        console.error(req.body);
         res.send("OPPS something went wrong..")
     }
 })
