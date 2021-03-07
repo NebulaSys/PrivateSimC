@@ -16,5 +16,7 @@ RUN npm install --only=production
 # Copy local code to the container image.
 COPY . ./
 
+# TODO: add simc binary
+
 # Run the web service on container startup.
 CMD [ "npm", "start" ]

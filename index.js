@@ -1,7 +1,22 @@
 const express = require('express')
+const { execFile } = require('child_process');
 const verify = require('./verify')
 const app = express()
 const port = process.env.PORT || 8080;
+
+const test = execFile ('./simc2');
+
+test.stdout.on('data', (data) => {
+    console.log(data.toString());
+});
+
+test.stderr.on('data', (data) => {
+    console.error(data.toString());
+});
+
+test.on('exit', (code) => {
+    console.log(`Child exited with code ${code}`);
+});
 
 app.use(express.json())
 
