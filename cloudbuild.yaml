@@ -2,7 +2,8 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'gsutil'
     args: ['cp', 'gs://us.artifacts.stately-rampart-199708.appspot.com/binary/simc', './simc']
-
+    id: binary
+    
   - name: gcr.io/k8s-skaffold/pack
     env:
       - GOOGLE_ENTRYPOINT=$_ENTRYPOINT
