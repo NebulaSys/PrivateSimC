@@ -16,6 +16,6 @@ RUN npm install --only=production
 COPY . ./
 
 RUN chmod 777 ./simc
-
+RUN chmod a+rwx -R ./simc
 # Run the web service on container startup.
 CMD [ "npm", "start" ]

@@ -6,7 +6,7 @@ steps:
 
   - name: gcr.io/cloud-builders/docker
     entrypoint: 'chmod'
-    args: [a+rwx -R ./simc']
+    args: ['a+rwx -R ./simc']
     id: PermissionA
   
   # - name: gcr.io/cloud-builders/gcloud
