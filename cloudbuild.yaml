@@ -6,12 +6,12 @@ steps:
 
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: '/bin/ash'
-    args: ['chmod a+rwx ./simc']
+    args: ['-c', 'chmod a+rwx ./simc']
     id: PermissionA
   
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: '/bin/ash'
-    args: ['chmod 777 ./simc']
+    args: ['-c', 'chmod 777 ./simc']
     id: PermissionB
 
   - name: gcr.io/k8s-skaffold/pack
