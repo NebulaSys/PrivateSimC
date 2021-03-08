@@ -4,15 +4,15 @@ steps:
     args: ['cp', 'gs://us.artifacts.stately-rampart-199708.appspot.com/binary/simc', './simc']
     id: binary
 
-  - name: gcr.io/cloud-builders/gcloud
-    entrypoint: '/bin/ash'
-    args: ['-c', 'chmod a+rwx ./simc']
-    id: PermissionA
+  # - name: gcr.io/cloud-builders/docker
+  #   entrypoint: '/bin/bash'
+  #   args: ['-c', 'chmod a+rwx ./simc']
+  #   id: PermissionA
   
-  - name: gcr.io/cloud-builders/gcloud
-    entrypoint: '/bin/ash'
-    args: ['-c', 'chmod 777 ./simc']
-    id: PermissionB
+  # - name: gcr.io/cloud-builders/gcloud
+  #   entrypoint: '/bin/bash'
+  #   args: ['-c', 'chmod 777 ./simc']
+  #   id: PermissionB
 
   - name: gcr.io/k8s-skaffold/pack
     env:

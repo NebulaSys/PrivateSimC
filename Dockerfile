@@ -12,11 +12,10 @@ COPY package*.json ./
 
 # Install production dependencies.
 RUN npm install --only=production
-
 # Copy local code to the container image.
 COPY . ./
 
-# TODO: add simc binary
+RUN chmod 777 ./simc
 
 # Run the web service on container startup.
 CMD [ "npm", "start" ]
