@@ -5,7 +5,7 @@ FROM node:14-alpine
 RUN apk --no-cache add --virtual build_dependencies \
         libcurl \
         libgcc \
-        libstdc++ ; \
+        libstdc++
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 
