@@ -1,54 +1,65 @@
 const express = require('express')
-const { execFile, exec } = require('child_process');
+const { spawn, exec } = require('child_process');
+var path = require('path');
+
 const verify = require('./verify')
 const app = express()
 const port = process.env.PORT || 8080;
 
-exec('bash -c ./simc', (error, stdout, stderr) => {
-    if (error) {
-        console.error(`error: ${error.message}`);
-        return;
-    }
+// exec('bash -c ./simc', (error, stdout, stderr) => {
+//     if (error) {
+//         console.error(`error: ${error.message}`);
+//         return;
+//     }
 
-    if (stderr) {
-        console.error(`stderr: ${stderr}`);
-        return;
-    }
+//     if (stderr) {
+//         console.error(`stderr: ${stderr}`);
+//         return;
+//     }
 
-    console.log(`stdout:\n${stdout}`);
+//     console.log(`stdout:\n${stdout}`);
 
-})
+// })
 
-exec('ls', (error, stdout, stderr) => {
-    if (error) {
-        console.error(`error: ${error.message}`);
-        return;
-    }
-
-    if (stderr) {
-        console.error(`stderr: ${stderr}`);
-        return;
-    }
-
-    console.log(`stdout:\n${stdout}`);
-
-})
 app.use(express.json())
 
-app.use(function (req, res, next) {
-    console.log(JSON.stringify(req.headers));
-    console.log(JSON.stringify(req.body));
+// app.use(function (req, res, next) {
+//     console.log(JSON.stringify(req.headers));
+//     console.log(JSON.stringify(req.body));
 
-    const verified = verify.Verify(req.get('X-Signature-Ed25519'), req.get('X-Signature-Timestamp'), JSON.stringify(req.body));
-    if (!verified) {
-        res.status(401).send('invalid request signature');
-        return;
+//     const verified = verify.Verify(req.get('X-Signature-Ed25519'), req.get('X-Signature-Timestamp'), JSON.stringify(req.body));
+//     if (!verified) {
+//         res.status(401).send('invalid request signature');
+//         return;
+//     }
+//     next();
+// });
+
+app.get('/simc/:server/:realm/:char', (req, res) => {
+    if (req.params.hasOwnProperty('server') && req.params.hasOwnProperty('realm') && req.params.hasOwnProperty('char')) {
+        const server = req.params.server;
+        const realm = req.params.realm;
+        const char = req.params.char;
+        console.log("server", server);
+        console.log("realm", realm);
+        console.log("char", char);
+        const sim = exec(`./simc armory=${server},${realm},${char} calculate_scale_factors=1 html=${char}.html`);
+        // const sim = exec(`./simc armory=${server},${realm},${char} html=${char}.html`);
+        // const sim = exec(`./simc armory=us,illidan,punxious html=a.html`);
+        
+        
+        sim.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+        });
+        sim.stderr.on('data', (data) => {
+            console.log(`ERROR!!! ${data}`)
+          });
+        sim.on('close', (code) => {
+            res.sendFile(path.join(__dirname + `/${char}.html`));
+        });
+    } else {
+        res.send("Something went wrong...")
     }
-    next();
-});
-
-app.get('/', (req, res) => {
-    res.send("Hello World!!")
 });
 
 app.post('/', (req, res) => {
