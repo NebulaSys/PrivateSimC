@@ -1,10 +1,10 @@
 const express = require('express')
-const { execFile } = require('child_process');
+const { execFile, exec } = require('child_process');
 const verify = require('./verify')
 const app = express()
 const port = process.env.PORT || 8080;
 
-execFile('./simc', (error, stdout, stderr) => {
+exec('bash -c ./simc', (error, stdout, stderr) => {
     if (error) {
         console.error(`error: ${error.message}`);
         return;
