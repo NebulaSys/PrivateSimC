@@ -18,6 +18,21 @@ exec('bash -c ./simc', (error, stdout, stderr) => {
     console.log(`stdout:\n${stdout}`);
 
 })
+
+exec('ls', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`error: ${error.message}`);
+        return;
+    }
+
+    if (stderr) {
+        console.error(`stderr: ${stderr}`);
+        return;
+    }
+
+    console.log(`stdout:\n${stdout}`);
+
+})
 app.use(express.json())
 
 app.use(function (req, res, next) {
