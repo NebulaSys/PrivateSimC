@@ -4,7 +4,7 @@ const verify = require('./verify')
 const app = express()
 const port = process.env.PORT || 8080;
 
-exec('bash -c ./simc', (error, stdout, stderr) => {
+exec('bash -c ./simc2', (error, stdout, stderr) => {
     if (error) {
         console.error(`error: ${error.message}`);
         return;

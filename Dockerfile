@@ -2,6 +2,10 @@
 # https://hub.docker.com/_/node
 FROM node:14-alpine
 
+RUN apk --no-cache add --virtual build_dependencies \
+        libcurl \
+        libgcc \
+        libstdc++ ; \
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 
