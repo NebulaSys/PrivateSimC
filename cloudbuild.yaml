@@ -14,23 +14,20 @@ steps:
   #   args: ['-c', 'chmod 777 ./simc']
   #   id: PermissionB
 
-  - name: gcr.io/k8s-skaffold/pack
-    env:
-      - GOOGLE_ENTRYPOINT=$_ENTRYPOINT
+  - name: gcr.io/cloud-builders/docker
     args:
       - build
+      - -t
       - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA'
-      - '--builder=gcr.io/buildpacks/builder:v1'
-      - '--path=.'
-      - '--env=GOOGLE_ENTRYPOINT'
-    id: Buildpack
-    entrypoint: pack
+      - '.'
+    id: DockerBuild
 
   - name: gcr.io/cloud-builders/docker
     args:
       - push
       - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA'
     id: Push
+
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     args:
       - run
