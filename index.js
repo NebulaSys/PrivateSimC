@@ -1,17 +1,20 @@
 const express = require('express')
-const { spawn, exec } = require('child_process');
+const { exec } = require('child_process');
 const { Storage } = require('@google-cloud/storage');
-const path = require('path');
-
-const verify = require('./verify')
+const fetch = require('node-fetch');
 const app = express()
 const port = process.env.PORT || 8080;
+const APP_ID = "817541091724886028";
+const BASE_URL = "https://discord.com/api/v8"
 app.use(express.json())
 
 app.post('/simc/:server/:realm/:char', (req, res) => {
     if (req.params.hasOwnProperty('server') && req.params.hasOwnProperty('realm') && req.params.hasOwnProperty('char')) {
         console.log("req.body: ", req.body)
-
+        if(!req.body || !req.body.interactionToken){
+            res.send("Something is Wrong...");
+        }
+        const interactionToken = req.body.interactionToken
         const server = req.params.server;
         const realm = req.params.realm;
         const char = req.params.char;
@@ -23,7 +26,7 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
         console.log("server", server);
         console.log("realm", realm);
         console.log("char", char);
-        
+
         // const sim = exec(`./simc armory=${server},${realm},${char} calculate_scale_factors=1 html=${char}.html`);
         const sim = exec(`./simc armory=${server},${realm},${char} html=${char}.html`);
 
@@ -50,6 +53,17 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
                 },
             });
             console.log(`${filename} uploaded to ${bucketName}.`);
+            await fetch(`${BASE_URL}/webhooks/${APP_ID}/${interactionToken}`);
+            content = {
+                "type": 4,
+                "data": {
+                    "tts": False,
+                    "content": "Congrats on sending your command!",
+                    "embeds": [],
+                    "allowed_mentions": { "parse": [] }
+                }
+            }
+            // POST https://discord.com/api/v8/interactions/<interaction_id>/<interaction_token>
             res.send(`http://${bucketName}/${destination}`);
             // res.redirect(`http://simc.intertrick.com/${destination}`);
         });
