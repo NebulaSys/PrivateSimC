@@ -15,10 +15,10 @@ RUN apk --no-cache add --virtual build_dependencies \
         libgcc \
         libstdc++
 
-# RUN curl -sSL https://sdk.cloud.google.com | bash
-# ENV PATH $PATH:/root/google-cloud-sdk/bin
+RUN curl -sSL https://sdk.cloud.google.com | bash
+ENV PATH $PATH:/root/google-cloud-sdk/bin
 
-# RUN gsutil cp gs://us.artifacts.stately-rampart-199708.appspot.com/binary/simc ./simc
+RUN gsutil cp gs://us.artifacts.stately-rampart-199708.appspot.com/binary/simc ./simc
 
 WORKDIR /usr/src/app
 
