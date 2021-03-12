@@ -23,7 +23,7 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
         console.log("server", server);
         console.log("realm", realm);
         console.log("char", char);
-        res.send(`http://${bucketName}/${destination}`);
+        
         // const sim = exec(`./simc armory=${server},${realm},${char} calculate_scale_factors=1 html=${char}.html`);
         const sim = exec(`./simc armory=${server},${realm},${char} html=${char}.html`);
 
@@ -50,6 +50,7 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
                 },
             });
             console.log(`${filename} uploaded to ${bucketName}.`);
+            res.send(`http://${bucketName}/${destination}`);
             // res.redirect(`http://simc.intertrick.com/${destination}`);
         });
     } else {
