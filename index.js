@@ -57,11 +57,9 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
             console.log(`${filename} uploaded to ${bucketName}.`);
             const message = {
                 "type": 4,
-                "data": {
-                    "tts": false,
-                    "content": `<@${userId}> http://${bucketName}/${destination}`,
-                    "allowed_mentions": { "users": [userId] }
-                }
+                "tts": false,
+                "content": `<@${userId}> Result page - http://${bucketName}/${destination}`,
+                "allowed_mentions": { "users": [userId] }
             }
             const messRes = await fetch(`${BASE_URL}/webhooks/${APP_ID}/${interactionToken}`, {
                 method: 'post',
