@@ -1,18 +1,18 @@
 steps:
-  # - name: gcr.io/cloud-builders/gcloud
-  #   entrypoint: 'gsutil'
-  #   args: ['cp', 'gs://us.artifacts.stately-rampart-199708.appspot.com/binary/simc', './simc']
-  #   id: binary
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: 'gsutil'
+    args: ['cp', 'gs://us.artifacts.stately-rampart-199708.appspot.com/binary/simc', './simc']
+    id: binary
 
   # - name: gcr.io/cloud-builders/docker
   #   entrypoint: 'chmod'
   #   args: ['a+rwx', '-R', './simc']
   #   id: PermissionA
   
-  # - name: gcr.io/cloud-builders/gcloud
-  #   entrypoint: '/bin/bash'
-  #   args: ['-c', 'chmod 777 ./simc']
-  #   id: PermissionB
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: '/bin/bash'
+    args: ['-c', 'chmod 777 ./simc']
+    id: PermissionB
 
   - name: gcr.io/cloud-builders/docker
     args:
