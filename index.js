@@ -59,10 +59,8 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
                 "type": 4,
                 "data": {
                     "tts": false,
-                    "content": `http://${bucketName}/${destination}`,
-                    "embeds": [],
-                    "allowed_mentions": { "parse": ["users"] },
-                    "users": [userId]
+                    "content": `<@${userId}> http://${bucketName}/${destination}`,
+                    "allowed_mentions": { "users": [userId] }
                 }
             }
             const messRes = await fetch(`${BASE_URL}/webhooks/${APP_ID}/${interactionToken}`, {
