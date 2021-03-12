@@ -12,7 +12,8 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
     if (req.params.hasOwnProperty('server') && req.params.hasOwnProperty('realm') && req.params.hasOwnProperty('char')) {
         console.log("req.body: ", req.body)
         if(!req.body || !req.body.interactionToken){
-            res.send("Something is Wrong...");
+            res.send("Request Body is Wrong...");
+            return;
         }
         const interactionToken = req.body.interactionToken
         const server = req.params.server;
@@ -34,7 +35,7 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
             console.log(`stdout: ${data}`);
         });
         sim.stderr.on('data', (data) => {
-            console.log(`ERROR!!! ${data}`)
+            console.log(`ERROR!!! ${data}`);
         });
         sim.on('close', async (code) => {
             const storage = new Storage();
@@ -69,6 +70,7 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
         });
     } else {
         res.send("Something went wrong...")
+        return;
     }
 });
 
