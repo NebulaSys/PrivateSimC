@@ -55,23 +55,23 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
                 },
             });
             console.log(`${filename} uploaded to ${bucketName}.`);
-            const content = {
+            const message = {
                 "type": 4,
                 "data": {
                     "tts": false,
-                    "content": "http://${bucketName}/${destination}",
+                    "content": `http://${bucketName}/${destination}`,
                     "embeds": [],
-                    "allowed_mentions": { "parse": [userId] }
+                    "allowed_mentions": { "parse": ["users"] },
+                    "users": [userId]
                 }
             }
-            await fetch(`${BASE_URL}/webhooks/${APP_ID}/${interactionToken}`, {
+            const messRes = await fetch(`${BASE_URL}/webhooks/${APP_ID}/${interactionToken}`, {
                 method: 'post',
-                body: JSON.stringify(content),
+                body: JSON.stringify(message),
                 headers: { 'Content-Type': 'application/json' }
-            }).catch(err => {
-                console.log(err)
             });
-            // POST https://discord.com/api/v8/interactions/<interaction_id>/<interaction_token>
+            const messResult = await messRes.json();
+            console.log("messResult: ", messResult);
             res.send(`http://${bucketName}/${destination}`);
             // res.redirect(`http://simc.intertrick.com/${destination}`);
         });
