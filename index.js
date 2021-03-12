@@ -17,7 +17,7 @@ async function startSim(server, realm, char, destination, args) {
     const filename = `./${char}.html`;
     return new Promise((resolve, reject) => {
         // const sim = exec(`./simc armory=${server},${realm},${char} calculate_scale_factors=1 html=${char}.html`);
-        const sim = exec(`./simc armory=${server},${realm},${char} ${args.scale?'calculate_scale_factors=1':""}html=${char}.html`);
+        const sim = exec(`./simc armory=${server},${realm},${char} ${args.scale?'calculate_scale_factors=1 ':''}html=${char}.html`);
 
         sim.stdout.on('data', (data) => {
             console.log(`stdout: ${data}`);
@@ -131,7 +131,7 @@ app.post('/simc', async (req, res) => {
         headers: { 'Content-Type': 'application/json' }
     });
     const messResult = await messRes.json();
-    console.log("messResult: ", messResult);
+    // console.log("messResult: ", messResult);
     res.send(`http://${BUCKET_NAME}/${destination}`);
     res.status(200).send();
 });
