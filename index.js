@@ -77,14 +77,28 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
     }
 });
 
-app.post('/', (req, res) => {
-    if (req.body.hasOwnProperty('type') && req.body.type === 1) {
-        res.send({
-            'type': 1
-        });
-    } else {
-        res.send("OPPS something went wrong..");
+app.post('/simc', (req, res) => {
+    if (!req.body) {
+        const msg = 'no Pub/Sub message received';
+        console.error(`error: ${msg}`);
+        res.status(200).send(`Bad Request: ${msg}`);
+        return;
     }
+
+    if (!req.body.message) {
+        const msg = 'invalid Pub/Sub message format';
+        console.error(`error: ${msg}`);
+        res.status(200).send(`Bad Request: ${msg}`);
+        return;
+    }
+
+    const pubSubMessage = req.body.message;
+    const message = pubSubMessage.data
+        ? Buffer.from(pubSubMessage.data, 'base64').toString().trim()
+        : 'World';
+
+    console.log(`${message}`);
+    res.status(200).send();
 });
 
 app.listen(port, '0.0.0.0', () => {
