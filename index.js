@@ -8,6 +8,10 @@ const APP_ID = "817541091724886028";
 const BASE_URL = "https://discord.com/api/v8"
 app.use(express.json())
 
+async function startSim(server, realm, char){
+
+}
+
 app.post('/simc/:server/:realm/:char', (req, res) => {
     if (req.params.hasOwnProperty('server') && req.params.hasOwnProperty('realm') && req.params.hasOwnProperty('char')) {
         console.log("req.body: ", req.body)
@@ -48,9 +52,6 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
                 // object you are uploading to a bucket.
                 destination: destination,
                 metadata: {
-                    // Enable long-lived HTTP caching headers
-                    // Use only if the contents of the file will never change
-                    // (If the contents will change, use cacheControl: 'no-cache')
                     cacheControl: 'public, max-age=31536000',
                 },
             });
