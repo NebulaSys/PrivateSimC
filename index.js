@@ -11,7 +11,7 @@ app.use(express.json())
 app.post('/simc/:server/:realm/:char', (req, res) => {
     if (req.params.hasOwnProperty('server') && req.params.hasOwnProperty('realm') && req.params.hasOwnProperty('char')) {
         console.log("req.body: ", req.body)
-        if(!req.body || !req.body.interactionToken || !req.body.userId){
+        if (!req.body || !req.body.interactionToken || !req.body.userId) {
             res.send("Request Body is Wrong...");
             return;
         }
@@ -55,16 +55,22 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
                 },
             });
             console.log(`${filename} uploaded to ${bucketName}.`);
-            await fetch(`${BASE_URL}/webhooks/${APP_ID}/${interactionToken}`);
-            content = {
+            const content = {
                 "type": 4,
                 "data": {
                     "tts": false,
-                    "content": "Congrats on sending your command!",
+                    "content": "http://${bucketName}/${destination}",
                     "embeds": [],
                     "allowed_mentions": { "parse": [userId] }
                 }
             }
+            await fetch(`${BASE_URL}/webhooks/${APP_ID}/${interactionToken}`, {
+                method: 'post',
+                body: JSON.stringify(content),
+                headers: { 'Content-Type': 'application/json' }
+            }).catch(err => {
+                console.log(err)
+            });
             // POST https://discord.com/api/v8/interactions/<interaction_id>/<interaction_token>
             res.send(`http://${bucketName}/${destination}`);
             // res.redirect(`http://simc.intertrick.com/${destination}`);
