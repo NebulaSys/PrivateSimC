@@ -11,11 +11,12 @@ app.use(express.json())
 app.post('/simc/:server/:realm/:char', (req, res) => {
     if (req.params.hasOwnProperty('server') && req.params.hasOwnProperty('realm') && req.params.hasOwnProperty('char')) {
         console.log("req.body: ", req.body)
-        if(!req.body || !req.body.interactionToken){
+        if(!req.body || !req.body.interactionToken || !req.body.userId){
             res.send("Request Body is Wrong...");
             return;
         }
         const interactionToken = req.body.interactionToken
+        const userId = req.body.userId
         const server = req.params.server;
         const realm = req.params.realm;
         const char = req.params.char;
@@ -58,10 +59,10 @@ app.post('/simc/:server/:realm/:char', (req, res) => {
             content = {
                 "type": 4,
                 "data": {
-                    "tts": False,
+                    "tts": false,
                     "content": "Congrats on sending your command!",
                     "embeds": [],
-                    "allowed_mentions": { "parse": [] }
+                    "allowed_mentions": { "parse": [userId] }
                 }
             }
             // POST https://discord.com/api/v8/interactions/<interaction_id>/<interaction_token>
